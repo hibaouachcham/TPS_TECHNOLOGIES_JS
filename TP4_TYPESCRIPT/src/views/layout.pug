@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Book Reading Tracker
+    script(src="https://cdn.tailwindcss.com")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css")
+  
+  body(class="bg-gray-100")
+    nav(class="bg-blue-600 text-white p-4 shadow-lg")
+      div(class="container mx-auto flex justify-between items-center")
+        div(class="flex items-center space-x-6")
+          h1(class="text-2xl font-bold")
+            i(class="fas fa-book mr-2")
+            | Book Reading Tracker
+          a(href="/", class="hover:text-blue-200 transition") Accueil
+          a(href="/books", class="hover:text-blue-200 transition") Mes Livres
+          a(href="/books/add", class="hover:text-blue-200 transition") Ajouter un livre
+          a(href="/stats", class="hover:text-blue-200 transition") Statistiques
+        
+        if session.user
+          div(class="flex items-center space-x-4")
+            span
+              i(class="fas fa-user mr-1")
+              | #{session.user}
+            a(href="/logout", class="bg-red-500 px-3 py-1 rounded hover:bg-red-600 transition") Déconnexion
+        else
+          a(href="/login", class="bg-green-500 px-3 py-1 rounded hover:bg-green-600 transition") Connexion Admin
+
+    main(class="container mx-auto p-6")
+      block content
+
+    footer(class="bg-gray-800 text-white text-center p-4 mt-8")
+      p &copy; 2026 Book Reading Tracker - Suivez vos lectures

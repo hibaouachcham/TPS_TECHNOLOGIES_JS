@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  h1(class="text-3xl font-bold text-gray-800 mb-6") Statistiques de lecture
+
+  div(class="grid md:grid-cols-4 gap-6 mb-8")
+    div(class="bg-white rounded-lg shadow-md p-6 text-center")
+      i(class="fas fa-book text-3xl text-blue-600 mb-2")
+      h3(class="text-2xl font-bold") #{totalBooks}
+      p(class="text-gray-600") Total des livres
+
+    div(class="bg-white rounded-lg shadow-md p-6 text-center")
+      i(class="fas fa-check-circle text-3xl text-green-600 mb-2")
+      h3(class="text-2xl font-bold") #{finishedBooks}
+      p(class="text-gray-600") Livres terminés
+
+    div(class="bg-white rounded-lg shadow-md p-6 text-center")
+      i(class="fas fa-chart-line text-3xl text-yellow-600 mb-2")
+      h3(class="text-2xl font-bold") #{totalPagesRead}
+      p(class="text-gray-600") Pages lues
+
+    div(class="bg-white rounded-lg shadow-md p-6 text-center")
+      i(class="fas fa-file-alt text-3xl text-purple-600 mb-2")
+      h3(class="text-2xl font-bold") #{totalPages}
+      p(class="text-gray-600") Pages totales
+
+  if totalPages > 0
+    div(class="bg-white rounded-lg shadow-md p-6 mb-8")
+      h2(class="text-xl font-bold mb-4") Progression globale
+      div(class="flex justify-between text-sm mb-2")
+        span #{Math.round((totalPagesRead / totalPages) * 100)}% complété
+        span #{totalPagesRead} / #{totalPages} pages
+      div(class="w-full bg-gray-200 rounded-full h-4")
+        div(class="bg-blue-600 rounded-full h-4", style=`width: ${(totalPagesRead / totalPages) * 100}%`)
+
+  if books && books.length > 0
+    div(class="bg-white rounded-lg shadow-md p-6")
+      h2(class="text-xl font-bold mb-4") Répartition par statut
+      div(class="space-y-3")
+        - const statusCount = {}
+        - books.forEach(book => { statusCount[book.status] = (statusCount[book.status] || 0) + 1 })
+        each count, status in statusCount
+          div
+            div(class="flex justify-between text-sm mb-1")
+              span #{status}
+              span #{count} livre(s)
+            div(class="w-full bg-gray-200 rounded-full h-2")
+              div(class="bg-blue-600 rounded-full h-2", style=`width: ${(count / books.length) * 100}%`)

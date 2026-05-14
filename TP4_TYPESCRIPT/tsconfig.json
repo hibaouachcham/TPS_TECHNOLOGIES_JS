@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    // ===== CONFIGURATION DE BASE  =====
+    "target": "es2016",           
+    "module": "commonjs",         
+    "rootDir": "./src",           // Dossier source (page 7)
+    "outDir": "./dist",           // Dossier de sortie (page 7)
+    "removeComments": true,       //  Désactive l'émission des commentaires
+    "noEmitOnError": true,        //  Pas de fichier JS si erreurs TS
+
+    // ===== CONFIGURATIONS SUPPLEMENTAIRES =====
+    "strict": true,               // "TS is a statically typed language"
+    "noImplicitAny": true,        //  Éviter le 'any' implicite
+    "esModuleInterop": true,      // Pour importer correctement Express (CommonJS)
+    
+    // ===== CONFIGURATIONS OPTIONNELLES  =====
+    "noUnusedLocals": true,       
+    "noUnusedParameters": true,    
+    "noImplicitReturns": true,    
+
+    // ===== AUTRES PARAMÈTRES UTILES =====
+    "skipLibCheck": true,         // Pour la compatibilité avec les bibliothèques
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*"],        // Inclut tous les fichiers TS du dossier src
+  "exclude": ["node_modules", "dist"]
+}

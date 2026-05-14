@@ -1,0 +1,66 @@
+extends layout
+
+block content
+  div(class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8")
+    h2(class="text-2xl font-bold mb-6 text-center") Ajouter un nouveau livre
+    
+    if error
+      div(class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4")
+        p #{error}
+    
+    form(method="POST", action="/books/add")
+      div(class="grid grid-cols-2 gap-4")
+        div(class="mb-4")
+          label(class="block text-gray-700 font-bold mb-2", for="title") Titre *
+          input(type="text", name="title", id="title", required,
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500")
+        
+        div(class="mb-4")
+          label(class="block text-gray-700 font-bold mb-2", for="author") Auteur *
+          input(type="text", name="author", id="author", required,
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500")
+        
+        div(class="mb-4")
+          label(class="block text-gray-700 font-bold mb-2", for="totalPages") Nombre de pages *
+          input(type="number", name="totalPages", id="totalPages", required, min="1",
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500")
+        
+        div(class="mb-4")
+          label(class="block text-gray-700 font-bold mb-2", for="price") Prix (€)
+          input(type="number", name="price", id="price", step="0.01", min="0",
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500")
+        
+        div(class="mb-4")
+          label(class="block text-gray-700 font-bold mb-2", for="status") Statut *
+          select(name="status", id="status", required,
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500")
+            option(value="Currently reading") Currently reading
+            option(value="Read") Read
+            option(value="Re-read") Re-read
+            option(value="DNF") DNF
+            option(value="Returned Unread") Returned Unread
+            option(value="Want to read") Want to read
+        
+        div(class="mb-4")
+          label(class="block text-gray-700 font-bold mb-2", for="format") Format *
+          select(name="format", id="format", required,
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500")
+            option(value="Print") Print
+            option(value="PDF") PDF
+            option(value="Ebook") Ebook
+            option(value="AudioBook") AudioBook
+        
+        div(class="mb-4")
+          label(class="block text-gray-700 font-bold mb-2", for="pagesRead") Pages lues
+          input(type="number", name="pagesRead", id="pagesRead", min="0", value="0",
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500")
+        
+        div(class="mb-4")
+          label(class="block text-gray-700 font-bold mb-2", for="suggestedBy") Suggéré par
+          input(type="text", name="suggestedBy", id="suggestedBy",
+            class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500")
+      
+      div(class="flex justify-center mt-6")
+        button(type="submit", 
+          class="bg-blue-600 text-white font-bold py-2 px-6 rounded hover:bg-blue-700 transition")
+          Ajouter le livre

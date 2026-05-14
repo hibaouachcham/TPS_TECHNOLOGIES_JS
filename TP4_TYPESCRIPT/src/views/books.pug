@@ -1,0 +1,67 @@
+extends layout
+
+block content
+  div(class="flex justify-between items-center mb-6")
+    h1(class="text-3xl font-bold text-gray-800") Mes Livres
+    if session.user
+      a(href="/books/add", class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition")
+        i(class="fas fa-plus mr-2")
+        | Ajouter un livre
+
+  if books && books.length > 0
+    div(class="grid md:grid-cols-2 lg:grid-cols-3 gap-6")
+      each book in books
+        div(class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition")
+          div(class="p-6")
+            div(class="flex justify-between items-start mb-4")
+              h2(class="text-xl font-bold text-gray-800") #{book.title}
+              span(class=`px-2 py-1 rounded text-xs font-bold ${
+                book.status === 'Read' ? 'bg-green-200 text-green-800' :
+                book.status === 'Currently reading' ? 'bg-blue-200 text-blue-800' :
+                book.status === 'DNF' ? 'bg-red-200 text-red-800' :
+                'bg-gray-200 text-gray-800'
+              }`) #{book.status}
+            
+            p(class="text-gray-600 mb-2")
+              i(class="fas fa-user mr-2")
+              | #{book.author}
+            
+            p(class="text-gray-600 mb-2")
+              i(class="fas fa-book mr-2")
+              | #{book.totalPages} pages
+            
+            if book.pagesRead > 0
+              div(class="mt-3 mb-2")
+                div(class="flex justify-between text-sm mb-1")
+                  span Progression
+                  span #{Math.round((book.pagesRead / book.totalPages) * 100)}%
+                div(class="w-full bg-gray-200 rounded-full h-2")
+                  div(class="bg-blue-600 rounded-full h-2", style=`width: ${(book.pagesRead / book.totalPages) * 100}%`)
+            
+            div(class="flex justify-between items-center mt-4 pt-4 border-t")
+              span(class="text-sm text-gray-500")
+                i(class="fas fa-euro-sign mr-1")
+                | #{book.price}
+              if session.user
+                button(onclick=`deleteBook('${book._id}')`, class="text-red-600 hover:text-red-800")
+                  i(class="fas fa-trash")
+
+  else
+    div(class="bg-white rounded-lg shadow-md p-12 text-center")
+      i(class="fas fa-book-open text-6xl text-gray-400 mb-4")
+      p(class="text-xl text-gray-500") Aucun livre pour le moment
+      if session.user
+        a(href="/books/add", class="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700")
+          | Ajouter votre premier livre
+
+  script.
+    async function deleteBook(id) {
+      if (confirm('Êtes-vous sûr de vouloir supprimer ce livre ?')) {
+        try {
+          await fetch(`/api/books/${id}`, { method: 'DELETE' });
+          location.reload();
+        } catch (error) {
+          alert('Erreur lors de la suppression');
+        }
+      }
+    }
